@@ -1,0 +1,11 @@
+.cdk-drop-list-dragging {
+  background-color: #e8f0fe !important;
+}
+
+[cdkDrag] {
+  cursor: grab;
+}
+
+[cdkDrag]:active {
+  cursor: grabbing;
+}

@@ -1,0 +1,210 @@
+<div>
+    <h1 class="border-bottom p-4">Project Board</h1>
+
+    <div class="d-flex justify-space-around">
+        <input type="text" placeholder="Search..." class="form-control w-50 mt-4" (keyup)="searchProjects($event)" />
+        <button class="btn btn-primary mt-4 ms-4" (click)="editProject()">Add Project</button>
+        <button class="btn btn-primary mt-4 ms-4" (click)="createSprint()">
+            Create Sprint
+        </button>
+        <button class="btn btn-primary mt-4 ms-4" (click)="manageSprint()">
+            Manage Sprint
+        </button>
+    </div>
+    <table class="mt-4 w-75">
+        <tr>
+            <th style="padding: 10px;  ">Name</th>
+            <th style="padding: 10px;  ">Start Date</th>
+            <th style="padding: 10px;  ">End Date</th>
+            <th style="padding: 10px;  ">Members</th>
+            <th style="padding: 10px;  ">Actions</th>
+        </tr>
+        @for(project of projects; track project.id; let i=$index)
+        {
+
+        <tr>
+            <td style="padding: 10px;  ">{{project.name}}</td>
+            <td style="padding: 10px;  ">{{project.startDate | date:'mediumDate'}}</td>
+            <td style="padding: 10px;  ">{{project.endDate | date:'mediumDate'}}</td>
+            <td style="padding: 10px;  ">
+                <select>
+                    @for(member of project.projectMembers; track member.id; let j=$index)
+                    {
+                    <option [value]="member.id">{{member.name}}</option>
+                    }
+                </select>
+            </td>
+            <td style="padding: 10px;  ">
+                <button class="btn btn-primary" (click)="editProject(project)">Edit</button>
+                <button class="btn btn-primary ms-4" (click)="openDeleteModall(project)">Delete</button>
+            </td>
+        </tr>
+        }
+    </table>
+</div>
+
+<!-- Edit Project Modal -->
+<div class="modal" tabindex="-1" style="background: rgba(0,0,0,0.5); display: {{openEditModal ? 'block' : 'none'}};">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 50vw; width: 50vw">
+        <div class="modal-content">
+            <div class="d-flex flex-row align-items-center justify-content-between me-4">
+                <h2 class="formItem">Edit Project</h2>
+                <mat-icon (click)="openEditModal = false" title="close">close</mat-icon>
+            </div>
+
+            <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="p-4">
+                <div class="mb-3 formItem">
+                    <label for="projectName" class="form-label">Project Name</label>
+                    <input type="text" class="form-control" id="projectName" formControlName="name" required
+                        value="{{selectedProject?.name}}">
+                </div>
+                <div class="mb-3 formItem">
+                    <label for="projectDescription" class="form-label">Description</label>
+                    <textarea class="form-control" id="projectDescription" formControlName="description"
+                        value="{{selectedProject?.description}}"></textarea>
+                </div>
+                <div class="mb-3 formItem">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" formControlName="startDate"
+                        value="{{selectedProject?.startDate | date:'yyyy-MM-dd'}}">
+                </div>
+                <div class="mb-3 formItem">
+                    <label for="endDate" class="form-label">End Date</label>
+                    <input type="date" class="form-control" id="endDate" formControlName="endDate"
+                        value="{{selectedProject?.endDate | date:'yyyy-MM-dd'}}">
+                </div>
+                <div class="mb-3 formItem">
+                    <label for="members" class="form-label">Members</label>
+                    <div formArrayName="members">
+                        @for (user of users; let i = $index;track user.userId) {
+                        <label>
+                            <input type="checkbox" [formControlName]="i" (change)="onCheckboxChange($event, i)">
+                            {{ user.email }}
+                        </label><br />
+                        }
+                    </div>
+                </div>
+
+
+                <div class="mb-4 me-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-secondary ms-4" (click)="openEditModal = false">Cancel</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" style="background: rgba(0,0,0,0.5); display: {{openDeleteModal ? 'block' : 'none'}};">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content w-50">
+            <div class="d-flex flex-row align-items-center justify-content-between me-4">
+                <h2 class="formItem">Delete Project</h2>
+                <mat-icon (click)="openEditModal = false" title="close">close</mat-icon>
+            </div>
+
+            <div class="formItem">
+                <p>Are you sure you want to delete this project?</p>
+                <div class="mb-4 me-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-danger" (click)="deleteProject()">Delete</button>
+                    <button type="button" class="btn btn-secondary ms-4"
+                        (click)="openDeleteModal = false">Cancel</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" style="background: rgba(0,0,0,0.5); display: {{openSprintModal ? 'block' : 'none'}};">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 50vw; width: 50vw">
+        <div class="modal-content">
+            <div class="d-flex flex-row align-items-center justify-content-between me-4">
+                <h2 class="formItem">Create Sprint</h2>
+                <mat-icon (click)="openSprintModal = false" title="close">close</mat-icon>
+            </div>
+
+            <form [formGroup]="sprintForm" (ngSubmit)="onSprintSubmit()" class="p-4">
+                <div class="mb-3 formItem">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="string" class="form-control" id="name" formControlName="name">
+                </div>
+                <div class="mb-3 formItem">
+                    <label for="projectName" class="form-label">Project Name</label>
+                    <select formControlName="projectId">
+                        @for(project of projects;track project.id;let i=$index) {
+                            <option [value]="project.id">{{project.name}}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3 formItem">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" formControlName="startDate">
+                </div>
+                <div class="mb-3 formItem">
+                    <label for="endDate" class="form-label">End Date</label>
+                    <input type="date" class="form-control" id="endDate" formControlName="endDate">
+                </div>
+
+
+                <div class="mb-4 me-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-secondary ms-4"
+                        (click)="openSprintModal = false">Cancel</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" style="background: rgba(0,0,0,0.5); display: {{manageSprintModal ? 'block' : 'none'}};">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 50vw; width: 50vw">
+        <div class="modal-content">
+            <div class="d-flex flex-row align-items-center justify-content-between me-4">
+                <h2 class="formItem">Manage Sprints</h2>
+                <mat-icon (click)="manageSprintModal = false" title="close">close</mat-icon>
+            </div>
+
+            <form [formGroup]="manageSprintForm" (ngSubmit)="onManageSprintSubmit()" class="p-4">
+                
+                <div class="mb-3 formItem">
+                    <label for="projectName" class="form-label">Project Name</label>
+                    <select formControlName="projectId" (change)="filterSprints()" class="ms-4 w-25">
+                        @for(project of projects;track project.id;let i=$index) {
+                            <option [value]="project.id">{{project.name}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-3 formItem">
+                    <label for="name" class="form-label">Name</label>
+                    <select formControlName="sprintId" class="ms-4 w-25">
+                        @for(sprint of projectSprints;track sprint.id;let i=$index) {
+                            <option [value]="sprint.id">{{sprint.name}}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3 formItem">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" formControlName="startDate">
+                </div>
+                <div class="mb-3 formItem">
+                    <label for="endDate" class="form-label">End Date</label>
+                    <input type="date" class="form-control" id="endDate" formControlName="endDate">
+                </div>
+
+
+                <div class="mb-4 me-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button class="btn btn-primary ms-4" (click)="deleteSprint()">Delete Sprint</button>
+                    <button type="button" class="btn btn-secondary ms-4"
+                        (click)="manageSprintModal = false">Cancel</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

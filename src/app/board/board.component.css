@@ -1,0 +1,32 @@
+
+.modal-content {
+  min-height: 95vh;
+  max-height: 95vh;
+  overflow-y: auto;
+}
+
+th {
+    font-size: 20px;
+}
+
+.title-button:hover:hover {
+    cursor: pointer;
+    color: rgb(0, 115, 255);
+}
+
+tr:hover {
+    background-color: lightgrey;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+a:hover {
+    color: blue;
+    background-color: lightgrey;
+}
+
+a:active {
+    color: blueviolet;
+}

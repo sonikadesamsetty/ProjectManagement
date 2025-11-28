@@ -1,0 +1,32 @@
+table, tr, th, td {
+    border: none
+}
+
+th,td {
+    text-align: center;
+}
+
+.formItem {
+    text-align: left;
+    margin: 20px;
+}
+
+.member-field {
+  padding: 8px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.checkbox-list {
+  border: 1px solid #ccc;
+  padding: 8px;
+  background: #f9f9f9;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 200px;
+}
+
+tr:hover {
+    background-color: lightgrey;
+}

@@ -1,0 +1,223 @@
+@if(taskBoardClicked)
+{
+<div class="d-flex flex-column bg-light vh-100">
+
+    <div class="d-flex flex-row justify-content-between align-items-center p-3 border-bottom mt-4">
+        <div class="d-flex justify-content-center">
+            <h1>Stories and Tasks</h1>
+        </div>
+    </div>
+    <!-- each story is displayed as button with light grey background which is having 90% width. Text should display at left-->
+
+    <div class="ms-5 p-3 w-50">
+        <select style="width: 10em;height: 30px;" (click)="updateSprints($event)">
+            @for( project of projects; track project.id; let i=$index)
+            {
+            <option [value]="project.id">{{project.name}}</option>
+            }
+        </select>
+
+        <select style="margin-left: 20px; width: 10em; height: 30px;" (change)="updateStories($event)">
+            @for( sprint of sprints; track sprint.id; let j=$index)
+            {
+            <option [value]="sprint.id">{{sprint.name}}</option>
+            }
+        </select>
+
+        <button class="btn btn-primary ms-4" (click)="createStory(0)" style="background-color:rgb(0, 170, 255) ;">+
+            Create New Story</button>
+        <button class="btn btn-secondary ms-4" (click)="createBug(0)" style="background-color: rgb(0, 170, 255);">+
+            Create New Bug</button>
+        
+    </div>
+
+    <div class="d-flex">
+        <div class="ms-4 mt-4 p-3">
+            <div>
+                <p>Assigned To</p>
+                <select style="width: 150px; height: 30px;" (change)="filterByAssignee($event)">
+                    <option >ALL</option>
+                    @for(member of members;track member.id;let k=$index) {
+                    <option [value]="member.id">{{member.name}}</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <p class="mt-2">Type</p>
+                <select style="width: 150px; height: 30px;" (change)="filterByType($event)">
+                    <option value="all">All</option>
+                    <option value="story">Story</option>
+                    <option value="task">Task</option>
+                    <option value="bug">Bug</option>
+                </select>
+            </div>
+            <div>
+                <p class="mt-2">Status</p>
+                <select style="width: 150px; height: 30px;" (change)="filterByStatus($event)">
+                    <option value="all">All</option>
+                    <option value="new">New</option>
+                    <option value="ready">Ready for Development</option>
+                    <option value="inProgress">In Progress</option>
+                    <option value="review">Ready for Review</option>
+                    <option value="done">Done</option>
+                </select>
+            </div>
+        </div>
+        <!-- create a light border less box and keep all below div content in it. box should be at center with 80vw-->
+        <div class="mt-4 p-3 rounded" style="width:80vw; margin:auto;">
+            <div class="bg-white p-3 rounded">
+
+                <table style="min-height: 60%;" class="w-100 m-4 ">
+                    <th style="width: 5%;">
+
+                    </th>
+                    <th style="width: 5%;">
+                        Id
+                    </th>
+
+                    <th class="text-center" style="width: 45%;">
+                        Title
+                    </th>
+                    <th style=" width: 10%" class="text-center">
+                        status
+                    </th>
+                    <th style="width: 8%;" class="text-center">
+                        Story Points
+                    </th>
+                    <th style="width: 8%;" class="text-center">
+                        Assignee
+                    </th>
+
+                    @for ( story of stories; track story.id;let i=$index)
+                    {
+                    <tr>
+                        <td>
+                            <button class="btn btn-primary btn-sm" title="Add Task" (click)="addTask(0,story.id)"
+                                style="background-color:rgb(0, 170, 255) ;">+</button>
+                        </td>
+                        <td>
+                            {{story.id}}
+                        </td>
+
+                        <td class="d-flex flex-row">
+                            <div>
+                                @if(story.expanded) {
+                                <button class="btn  border-0 shadow-none" (click)="story.expanded=false"
+                                    title="collapse"><mat-icon>expand_less</mat-icon></button>
+
+                                } @else {
+                                <button class="btn  border-0 shadow-none" (click)="story.expanded=true"
+                                    title="expand"><mat-icon>expand_more</mat-icon></button>
+
+                                }
+                            </div>
+                            <button class="btn  w-100  text-start mb-2 title-button border-0"
+                                (click)="openStory(story.id)">
+
+                                <span>
+                                    @if(story.itemType=='bug'){
+                                    <mat-icon style="color: red;">bug_report</mat-icon>
+                                    }@else{
+                                    <mat-icon style="color: rgb(0, 170, 255);">sticky_note_2</mat-icon>
+
+                                    } {{story.title}} </span>
+                            </button>
+                        </td>
+                        <td class="text-center">
+                            {{story.status}}
+                        </td>
+                        <td class="text-center">
+                            {{story.capacity}}
+                        </td>
+                        <td class="text-center">
+                            {{findAssigneeName(story.assignedTo)}}
+                        </td>
+                    </tr>
+                    @if(story.expanded) {
+                    @for ( task of story.tasks; track task.id;let j=$index)
+                    {
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td style="padding-left: 40px;">
+                            <button class="btn  w-100 text-start mb-2 title-button border-0"
+                                (click)="openTask(task.id)">
+                                <span> {{task.title}} </span>
+                            </button>
+                        </td>
+                        <td class="text-center">
+                            <!-- status of task is always in progress-->
+                            In Progress
+                        </td>
+                        <td class="text-center">
+                            <!-- story points of task is always 0-->
+                            
+                        </td>
+                        <td class="text-center">
+                            <!-- remaining hours of task is always 0-->
+                             {{findAssigneeName(story.assignedTo)}}
+                        </td>
+                    </tr>
+                    }
+
+                    }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- when clicked on a story or task, open a window with 90% width and height by blurring background and a close icon at right top-->
+    <!-- that window should display story component-->
+    <!--if storyClicked is true, set style display as block or as none-->
+    <div>
+        <div class="modal" tabindex="-1"
+            style="background: rgba(0,0,0,0.5); display: {{storyClicked ||taskClicked ? 'block' : 'none'}};">
+            <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 99vw; width: 99vw">
+                <div class="modal-content">
+
+
+                    @if(storyClicked){
+                    <app-story [storyId]="storyId" [itemType]="itemType" [projectId]="selectedProjectId" (storyClicked)="closeStory()"></app-story>
+                    }@else if(taskClicked){
+                    <app-task [taskId]="taskId" [storyId]="storyId" [projectId]="selectedProjectId" (taskClicked)="closeTask()"></app-task>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+@if(projectBoardClicked)
+{
+<div>
+    <app-project></app-project>
+</div>
+
+}
+
+@if(boardViewClicked)
+{
+<div>
+    <app-kanban-view></app-kanban-view>
+</div>
+}
+
+@if(profileClicked) {
+<div>
+    <app-profile></app-profile>
+</div>
+}
+
+@if(userClicked) {
+<div>
+    <div>
+        <app-user></app-user>
+    </div>
+
+</div>
+}

@@ -1,0 +1,32 @@
+<div  style="border-radius: 10px;background-color:rgb(127, 210, 237);margin-top: 10px;min-height: 10%;">
+    <div class="bg-white ms-2">
+        <div>
+            <mat-icon style="color: rgb(127, 210, 237);">book</mat-icon>
+            <span>{{story.id}} {{story.title}}</span>
+        </div>
+        <div class="d-flex flex-row">
+            <mat-icon style="color: rgb(127, 210, 237); font-size: x-small;">circle</mat-icon>
+            <span>{{story.status}}</span>
+        </div>
+        <div  class="d-flex flex-row">
+            <div class="mat-avatar me-2" style="font-size: x-small;">{{ getInitials(story.assignedTo) }}</div>
+            <span>{{story.assignedTo}}</span>
+        </div>
+        <div >
+            <span style="color: #666666;">Type</span>
+            <span> {{story.itemType}}</span>
+        </div>
+        <div>
+            <span style="color: #666666;">CurrenEnv</span>
+            <span> Dev</span>
+        </div>
+        <div>
+            <span style="color: #666666;">Hold Reason</span>
+            <span></span>
+        </div>
+        <div>
+            <span style="color: #666666;">Story Points</span>
+            <span> {{story.capacity}}</span>
+        </div>
+    </div>
+</div>

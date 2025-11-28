@@ -1,0 +1,55 @@
+<div>
+    <h1 class="border-bottom p-4">Board View</h1>
+</div>
+
+  <div class="d-flex justify-space-around">
+        <input type="text" placeholder="Search..." class="form-control w-50 mt-4" (keyup)="searchItems($event)" />
+
+        <select style="margin-left: 20px; width: 10em; height: 30px;" (change)="filterByProject($event)">
+            @for( project of projects; track project.id; let j=$index)
+            {
+            <option [value]="project.id">{{project.name}}</option>
+            }
+        </select>
+
+        <select style="margin-left: 20px; width: 10em; height: 30px;" (change)="filterBySprint($event)">
+            @for( sprint of sprints; track sprint.id; let j=$index)
+            {
+            <option [value]="sprint.id">{{sprint.name}}</option>
+            }
+        </select>
+
+        <select style="width: 150px; height: 30px;" (change)="filterByAssignee($event)">
+                    <option value="">All Assignees</option>
+                    @for(member of members;track member.id;let k=$index) {
+                    <option [value]="member.id">{{member.name}}</option>
+                    }
+                </select>
+
+       
+    </div>
+<div class="w-100 d-flex flex-row justify-content-center">
+    <div style="width: 80%;height: 80%;" class=" m-4 p-4">
+        <div class="row">
+            <div class="col h5">New</div>
+            <div class="col h5">Grooming</div>
+            <div class="col h5">Active</div>
+            <div class="col h5">In Development</div>
+            <div class="col h5">Ready For Review</div>
+            <div class="col h5">Ready for Testing</div>
+            <div class="col h5">Closed</div>
+        </div>
+        <div class="row mt-3">
+            @for(state of states; track state) {
+            <div class="col bg-light me-4" cdkDropList [id]="state" [cdkDropListData]="getStoriesByState(state)"
+                [cdkDropListConnectedTo]="connectedDropLists" (cdkDropListDropped)="onDrop($event, state)">
+                @for(story of getStoriesByState(state); track story.id) {
+                <div cdkDrag [cdkDragData]="story" class="mb-2" style="min-height: 100vh;">
+                    <app-card [story]="story" [newState]="newState"></app-card>
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</div>

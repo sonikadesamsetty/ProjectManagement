@@ -1,0 +1,66 @@
+<div class=" d-flex flex-row justify-content-center align-items-center vw-75">
+    <div style="margin-top: 10%;">
+        <div>
+            <div>
+                @if(msg!=""){
+                <div style="color: aquamarine;">{{msg}}</div>
+                }
+            </div>
+
+            <div style="width: 25vw" class="bg-light p-4">
+                <h2>{{title}}</h2>
+                @if(title==='Sign Up') {
+                <div>
+                    <form [formGroup]="userForm" (ngSubmit)="submitForm()">
+                        <div class="d-flex flex-column">
+                            <label>Email Id</label>
+                            <input type="text" formControlName="email">
+                            <br />
+                            <label>Password</label>
+                            <input type="password" formControlName="password">
+                            <br />
+                            <label>Confirm Password</label>
+                            <input type="password" formControlName="confirmPassword">
+                            <br />
+                            <div>
+                                <button type="submit" style="width: fit-content;margin-right: 20px;">Register</button>
+                                <button type="reset" style="width: fit-content;"
+                                    (click)="userForm.reset()">Clear</button>
+                            </div>
+                            <br />
+                            <p>Already registered? <a style="text-decoration: underline;color: blue;"
+                                    (click)="title='Sign In'">Sign In</a></p>
+                        </div>
+                    </form>
+                </div>
+                }
+                @else if(title==="Sign In") {
+                <div>
+                    <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
+                        <div class="d-flex flex-column">
+                            <label>Email Id</label>
+                            <input type="text" formControlName="email">
+                            <br />
+                            <label>Password</label>
+                            <input type="password" formControlName="password">
+                            <br />
+                            <div>
+                                <button type="submit" style="width: fit-content;margin-right: 20px;">Login</button>
+                                <button type="reset" style="width: fit-content;"
+                                    (click)="userForm.reset()">Clear</button>
+                            </div>
+                            <br />
+                            <p>Not yet registered? <a style="text-decoration: underline;color: blue;"
+                                    (click)="title='Sign Up'">Sign Up</a></p>
+                        </div>
+                    </form>
+                </div>
+                }
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
