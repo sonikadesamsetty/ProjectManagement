@@ -57,8 +57,13 @@ export class BoardComponent implements OnInit {
   projectService = inject(ProjectService);
   sprintService = inject(SprintService);
   userService = inject(UserService);
+  userEmail = '';
   ngOnInit(): void {
-
+ this.userEmail = this.userService.getLoggedInUser();
+    if(!this.userEmail) { 
+      console.log("No logged in user found");
+      this.router.navigateByUrl("/user");
+    }
     this.loadProjects();
     this.storyService.getStories().subscribe(stories => {
       console.log(stories);

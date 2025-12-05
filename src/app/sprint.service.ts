@@ -18,7 +18,7 @@ export class SprintService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.get<Sprint[]>('http://localhost:8080/sprints',{headers});
+    return this.httpClient.get<Sprint[]>('http://localhost:8088/kanban-board/sprints',{headers});
   }
 
   createSprint(sprint: Sprint): Observable<Sprint> {
@@ -27,7 +27,7 @@ export class SprintService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.post<Sprint>('http://localhost:8080/sprints',sprint,{headers});
+    return this.httpClient.post<Sprint>('http://localhost:8088/kanban-board/sprints',sprint,{headers});
   }
 
   deleteSprint(id: any) {
@@ -36,7 +36,7 @@ export class SprintService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.delete(`http://localhost:8080/sprints/${id}`,{headers});
+    return this.httpClient.delete(`http://localhost:8088/kanban-board/sprints/${id}`,{headers});
   }
 
   updateSprint(sprint: Sprint) {
@@ -45,7 +45,7 @@ export class SprintService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.put('http://localhost:8080/sprints',sprint,{headers});
+    return this.httpClient.put('http://localhost:8088/kanban-board/sprints',sprint,{headers});
   }
   
 

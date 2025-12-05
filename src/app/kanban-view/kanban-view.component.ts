@@ -9,6 +9,8 @@ import { StoryService } from '../story.service';
 import { TaskService } from '../task.service';
 import { SprintService } from '../sprint.service';
 import { CardComponent } from '../card/card.component';
+import { Router } from '@angular/router';
+import {UserService} from '../user.service';
 import {
   CdkDragDrop,
   DragDropModule,
@@ -31,6 +33,8 @@ export class KanbanViewComponent {
   taskService = inject(TaskService);
   projectService = inject(ProjectService);
   sprintService = inject(SprintService);
+  userService = inject(UserService);
+  router = inject(Router);
   projects: Project[] = [];
   allProjects: Project[] = [];
 
@@ -44,7 +48,13 @@ export class KanbanViewComponent {
   selectedProjectId!: number;
   selectedSprintId!: number;
   selectedAssigneeId!: number;
+  userEmail = '';
   ngOnInit(): void {
+     this.userEmail = this.userService.getLoggedInUser();
+        if(!this.userEmail) { 
+          console.log("No logged in user found");
+          this.router.navigateByUrl("/signin");
+        }
     this.loadProjects();
 
   }

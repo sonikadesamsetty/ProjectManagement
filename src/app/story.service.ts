@@ -8,11 +8,11 @@ import { Story } from './models/story';
 })
 export class StoryService {
   unsubscribeFromStory(obj: { storyId: number; userEmail: string[]; }) {
-    return this.httpClient.delete('http://localhost:8080/stories/subscriptions', { body: obj });
+    return this.httpClient.delete('http://localhost:8088/kanban-board/stories/subscriptions', { body: obj });
   }
   
   subscribeToStory(obj: { storyId: number; userEmail: any; }) {
-    return this.httpClient.post('http://localhost:8080/stories/subscriptions', obj);
+    return this.httpClient.post('http://localhost:8088/kanban-board/stories/subscriptions', obj);
   }
   
   
@@ -26,21 +26,35 @@ export class StoryService {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
     });
-    return this.httpClient.get<Story[]>('http://localhost:8080/stories', {
+    return this.httpClient.get<Story[]>('http://localhost:8088/kanban-board/stories', {
       headers
     });
   }
 
-  addStory(story: any): Story {
+  getStoryById(id: any): Observable<Story> {
     const token = localStorage.getItem("token");
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
     });
-    this.httpClient.post('http://localhost:8080/stories', story,{headers}).subscribe((newStory) => {
+    return this.httpClient.get<Story>('http://localhost:8088/kanban-board/stories/'+id, {
+      headers
+    });
+  } 
+
+  addStory(attachments: FormData): any {
+    const token = localStorage.getItem("token");
+    const headers = new HttpHeaders({
+      //'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    });
+    //console.log(story);
+    
+    
+    this.httpClient.post('http://localhost:8088/kanban-board/stories',attachments,{headers}).subscribe((newStory) => {
       console.log(newStory);
     }); 
-    return story;
+    return "Story added";
   }
 
   updateStory(updatedStory: Story) {
@@ -49,11 +63,13 @@ export class StoryService {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
     });
-     this.httpClient.put(`http://localhost:8080/stories`, updatedStory,{headers}).subscribe((response) => {
+     this.httpClient.put(`http://localhost:8088/kanban-board/stories`, updatedStory,{headers}).subscribe((response) => {
       console.log("Story updated on server:", response);
     });
     
   }
+
+  
 
   deleteStory(storyId: number) {
     const token = localStorage.getItem("token");
@@ -61,7 +77,7 @@ export class StoryService {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
     });
-    return this.httpClient.delete(`http://localhost:8080/stories/${storyId}`,{headers});
+    return this.httpClient.delete(`http://localhost:8088/kanban-board/stories/${storyId}`,{headers});
   }
   
   getAllSubscriptions() : Observable<any[]> {
@@ -70,7 +86,7 @@ export class StoryService {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
     });
-    return this.httpClient.get<any[]>('http://localhost:8080/stories/subscriptions',{headers});
+    return this.httpClient.get<any[]>('http://localhost:8088/kanban-board/stories/subscriptions',{headers});
   }
 
 }

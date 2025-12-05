@@ -20,7 +20,7 @@ export class TaskService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.get<Task[]>('http://localhost:8080/tasks',{headers});
+    return this.httpClient.get<Task[]>('http://localhost:8088/kanban-board/tasks',{headers});
   }
 
   addTask(task: any): boolean {
@@ -29,7 +29,7 @@ export class TaskService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    this.httpClient.post('http://localhost:8080/tasks', task,{headers}).subscribe((newTask) => {
+    this.httpClient.post('http://localhost:8088/kanban-board/tasks', task,{headers}).subscribe((newTask) => {
      console.log(newTask);
     }); 
     return true;
@@ -42,7 +42,7 @@ export class TaskService {
           'Authorization': 'Bearer ' + token
         });
     console.log("task to be update: " , task);
-    return this.httpClient.put(`http://localhost:8080/tasks`, task,{headers});
+    return this.httpClient.put(`http://localhost:8088/kanban-board/tasks`, task,{headers});
   }
 
   getTask(taskId: any) {
@@ -51,7 +51,7 @@ export class TaskService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.get<Task>(`http://localhost:8080/tasks/${taskId}`,{headers});
+    return this.httpClient.get<Task>(`http://localhost:8088/kanban-board/tasks/${taskId}`,{headers});
     
   }
 
@@ -61,6 +61,6 @@ export class TaskService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.delete(`http://localhost:8080/tasks/${taskId}`,{headers});
+    return this.httpClient.delete(`http://localhost:8088/kanban-board/tasks/${taskId}`,{headers});
   }
 }

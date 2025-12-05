@@ -1,4 +1,5 @@
 import { Task } from "./task";
+import { Attachment } from "./attachment";
 
 export class Story {
     public id!: number;
@@ -15,6 +16,11 @@ export class Story {
     public tasks: Task[] = [];
     public expanded: boolean = false;
     public itemType!: string;
+    public attachments!: Attachment[];
+    public createdBy!: string;
+    public createdAt!: string;
+    public updatedAt!: string;
+    public updatedBy!: string;
     constructor(id: number, title: string, description: string, status: string, assignedTo: string, discussion: string, priority: string, capacity: number, dor: string, acceptanceCriteria: string, sprintId: number, itemType: string) {
         this.id = id;
         this.title = title;

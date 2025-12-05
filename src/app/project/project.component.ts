@@ -9,6 +9,7 @@ import { User } from '../models/user';
 import { UserService } from '../user.service';
 import { SprintService } from '../sprint.service';
 import { Sprint } from '../models/sprint';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project',

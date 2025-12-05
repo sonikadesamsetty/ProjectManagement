@@ -20,7 +20,7 @@ export class ProjectService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.get<Project[]>("http://localhost:8081/projects",{headers});
+    return this.httpClient.get<Project[]>("http://localhost:8088/project-management/projects",{headers});
   }
 
   getProjectMembers(): Observable<Member[]> {
@@ -29,7 +29,7 @@ export class ProjectService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.get<Member[]>("http://localhost:8081/members",{headers});
+    return this.httpClient.get<Member[]>("http://localhost:8088/project-management/members",{headers});
   }
 
    addProject(newProject: Project): Observable<Project> {
@@ -38,7 +38,7 @@ export class ProjectService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.post<Project>("http://localhost:8081/projects", newProject,{headers});
+    return this.httpClient.post<Project>("http://localhost:8088/project-management/projects", newProject,{headers});
   }
 
   deleteProject(project: any): Observable<Project> {
@@ -47,7 +47,7 @@ export class ProjectService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.delete<Project>("http://localhost:8081/projects/" + project.id,{headers});
+    return this.httpClient.delete<Project>("http://localhost:8088/project-management/projects/" + project.id,{headers});
   }
 
    updateProject(updatedProject: Project) {
@@ -56,7 +56,7 @@ export class ProjectService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.put<Project>("http://localhost:8081/projects/" + updatedProject.id, updatedProject,{headers});
+    return this.httpClient.put<Project>("http://localhost:8088/project-management/projects/" + updatedProject.id, updatedProject,{headers});
   }
 
   updateProjectMembers(updatedMembers: Member[]): Observable<Member[]> {
@@ -65,6 +65,6 @@ export class ProjectService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         });
-    return this.httpClient.put<Member[]>("http://localhost:8081/members", updatedMembers,{headers});
+    return this.httpClient.put<Member[]>("http://localhost:8088/project-management/members", updatedMembers,{headers});
   }
 }

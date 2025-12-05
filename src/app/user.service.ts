@@ -13,7 +13,7 @@ export class UserService {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + token 
   });
-    return this.httpClient.get<User[]>('http://localhost:8085/users',{ headers});
+    return this.httpClient.get<User[]>('http://localhost:8088/auth-service/users',{ headers});
   }
 
   loggedInUser!: string;
@@ -24,7 +24,7 @@ export class UserService {
       password: password
     }
 
-    return this.httpClient.post('http://localhost:8085/register', obj);
+    return this.httpClient.post('http://localhost:8088/auth-service/register', obj);
   }
 
   loginUser(email: any, password: any): Observable<any> {
@@ -32,7 +32,7 @@ export class UserService {
       email: email,
       password: password
     }
-    return this.httpClient.post('http://localhost:8085/login', obj);
+    return this.httpClient.post('http://localhost:8088/auth-service/login', obj);
   }
 
   getLoggedInUser() {

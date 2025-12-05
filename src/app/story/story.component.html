@@ -67,12 +67,41 @@
                 </div>
             </div>
             <div class="d-flex flex-column w-25">
-                <div class="d-flex flex-row justify-content-between">
-                    <p>Attachments <mat-icon>attachment</mat-icon></p>
-                    <button type="button" class="btn btn-primary mb-2" style="width: fit-content;"
-                        (click)="addAttachment()">
-                        Add Attachment
-                    </button>
+                <div>
+                    <div>
+                        <p>Attachments </p>
+                        <div class="d-flex flex-column">
+                            <input type="file" #fileInput (change)="onFileSelected($event)">
+                            @if(addedFiles.length>0) {
+                                @for(file of addedFiles; track file.name; let n=$index) {
+                            <div class="d-flex flex-row">
+                                <!-- File name should be visible like link with file extension-->
+                                 <a class="text-primary text-decoration-underline " (click)="downloadFile(file.name)">
+                            {{ file.name }}</a>
+                               <mat-icon (click)="deleteFile(file)"
+                                style="cursor: pointer;">close</mat-icon>
+                            </div>
+                        }
+                            
+                            }
+
+                            @if(attachments.length>0) {
+                                @for(file of attachments; track file.fileName; let m=$index) {
+                            <div class="d-flex flex-row">
+                                <!-- File name should be visible like link with file extension-->
+                                 <a class="text-primary text-decoration-underline " (click)="downloadFile(file.fileName)">
+                            {{ file.fileName }}</a>
+                               <mat-icon (click)="deleteFile(file)"
+                                style="cursor: pointer;">close</mat-icon>
+
+                            </div>
+                        }
+                            
+                            }
+                        </div>
+                    </div>
+
+
                 </div>
 
             </div>
@@ -80,7 +109,7 @@
                 @if(isNotSubscribed()) {
                 <mat-icon title="subscribe" (click)="subscribe()">visibility</mat-icon>
                 } @else {
-                    <!-- off visibility -->
+                <!-- off visibility -->
                 <mat-icon title="unSubscribe" (click)="unSubscribe()">visibility_off</mat-icon>
                 }
                 <mat-icon title="Delete" (click)="deleteItem()">delete</mat-icon>
