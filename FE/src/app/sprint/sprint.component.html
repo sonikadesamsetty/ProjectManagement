@@ -1,0 +1,130 @@
+<!--Create Sprint Modal-->
+<div class="modal" tabindex="-1" style="background: rgba(0,0,0,0.5); display: {{!isEditMode ? 'block' : 'none'}};">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 50vw; width: 50vw">
+        <div class="modal-content">
+            <div class="d-flex flex-row align-items-center justify-content-between me-4">
+                <h2 class="formItem p-4">Create Sprint</h2>
+                <mat-icon (click)="closeSprintModal()" title="close">close</mat-icon>
+            </div>
+
+            <form [formGroup]="sprintForm" (ngSubmit)="onSprintSubmit()" class="p-4">
+                <div class="mb-3 formItem">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="string" class="form-control" id="name" formControlName="name" required>
+                </div>
+                @if(sprintForm.get('name')?.touched && sprintForm.get('name')?.invalid) {
+                <div class="text-danger ms-3">
+                    Sprint Name is required.
+                </div>
+                }
+                <div class="mb-3 formItem">
+                    <label for="projectName" class="form-label">Project Name</label>
+                    <select formControlName="projectId">
+                        @for(project of projects;track project.id;let i=$index) {
+                        <option [value]="project.id">{{project.name}}</option>
+                        }
+                    </select>
+                </div>
+                @if(sprintForm.get('projectId')?.touched && sprintForm.get('projectId')?.invalid) {
+                <div class="text-danger ms-3">
+                    Project selection is required.
+                </div>
+                }
+
+                <div class="mb-3 formItem">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" formControlName="startDate">
+                </div>
+                @if(sprintForm.get('startDate')?.touched && sprintForm.get('startDate')?.invalid) {
+                <div class="text-danger ms-3">
+                    Start Date is required.
+                </div>
+                }
+                <div class="mb-3 formItem">
+                    <label for="endDate" class="form-label">End Date</label>
+                    <input type="date" class="form-control" id="endDate" formControlName="endDate">
+                </div>
+                @if(sprintForm.get('endDate')?.touched && sprintForm.get('endDate')?.invalid) {
+                <div class="text-danger ms-3">
+                    End Date is required.
+                </div>
+                }
+
+                <div class="mb-4 me-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-info" [disabled]="sprintForm.invalid">Save Changes</button>
+                    <button type="button" class="btn btn-secondary ms-4" (click)="closeSprintModal()">Cancel</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Manage Sprint Modal -->
+<div class="modal" tabindex="-1"
+    style="background: rgba(0,0,0,0.5); display: {{isEditMode ? 'block' : 'none'}};">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 50vw; width: 50vw">
+        <div class="modal-content">
+            <div class="d-flex flex-row align-items-center justify-content-between me-4">
+                <h2 class="formItem p-4">Manage Sprints</h2>
+                <mat-icon (click)="closeManageSprintModal()" title="close">close</mat-icon>
+            </div>
+
+            <form [formGroup]="manageSprintForm" (ngSubmit)="onManageSprintSubmit()" class="p-4">
+
+                <div class="mb-3 formItem">
+                    <label for="projectName" class="form-label">Project Name</label>
+                    <select formControlName="projectId" (change)="filterSprints()" class="ms-4 w-25">
+                        @for(project of projects;track project.id;let i=$index) {
+                        <option [value]="project.id">{{project.name}}</option>
+                        }
+                    </select>
+                </div>
+                @if(manageSprintForm.get('projectId')?.touched && manageSprintForm.get('projectId')?.invalid) {
+                <div class="text-danger ms-3">
+                    Project selection is required.
+                </div>
+                }
+                <div class="mb-3 formItem">
+                    <label for="name" class="form-label">Name</label>
+                    <select formControlName="sprintId" class="ms-4 w-25">
+                        @for(sprint of projectSprints;track sprint.id;let i=$index) {
+                        <option [value]="sprint.id">{{sprint.name}}</option>
+                        }
+                    </select>
+                </div>
+                @if(manageSprintForm.get('sprintId')?.touched && manageSprintForm.get('sprintId')?.invalid) {
+                <div class="text-danger ms-3">
+                    Sprint selection is required.
+                </div>
+                }
+
+                <div class="mb-3 formItem">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" formControlName="startDate">
+                </div>
+                @if(manageSprintForm.get('startDate')?.touched && manageSprintForm.get('startDate')?.invalid) {
+                <div class="text-danger ms-3">
+                    Start Date is required.
+                </div>
+                }
+                <div class="mb-3 formItem">
+                    <label for="endDate" class="form-label">End Date</label>
+                    <input type="date" class="form-control" id="endDate" formControlName="endDate">
+                </div>
+
+                @if(manageSprintForm.get('endDate')?.touched && manageSprintForm.get('endDate')?.invalid) {
+                <div class="text-danger ms-3">
+                    End Date is required.
+                </div>
+                }
+                <div class="mb-4 me-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary" [disabled]="manageSprintForm.invalid" >Save Changes</button>
+                    <button class="btn btn-danger ms-4" (click)="deleteSprint()">Delete Sprint</button>
+                    <button type="button" class="btn btn-secondary ms-4"
+                        (click)="closeManageSprintModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

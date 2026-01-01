@@ -1,0 +1,26 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: kanban-service
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        register: true
+        prefer-ip-address: true
+        service-name: ${spring.application.name}
+        # configure Consul to use the actuator health endpoint for health checks
+        health-check-path: /actuator/health
+        health-check-interval: 10s
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: when_authorized

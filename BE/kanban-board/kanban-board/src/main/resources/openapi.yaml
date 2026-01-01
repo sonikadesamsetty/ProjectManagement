@@ -1,0 +1,752 @@
+openapi: "3.0.0"
+info:
+  title: "Sample API"
+  description: "API description in Markdown."
+  version: "1.0.0"
+paths:
+  /sprints:
+    get:
+      summary: "Get all Sprints"
+      description: "Get all Sprints"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Sprint"
+    post:
+      summary: "Create a new Sprint"
+      description: "Create a new Sprint"
+      requestBody:
+        description: "Sprint object that needs to be added"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sprint"
+      responses:
+        201:
+          description: "Sprint created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Sprint"
+    put:
+      summary: "Update a Sprint"
+      description: "Update a Sprint"
+      requestBody:
+        description: "Sprint object that needs to be updated"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sprint"
+      responses:
+        200:
+          description: "Sprint updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Sprint"
+  /sprints/{id}:
+    get:
+      summary: "Get a Sprint by ID"
+      description: "Get a Sprint by ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the Sprint to retrieve"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Sprint"
+    delete:
+      summary: "Delete a Sprint by ID"
+      description: "Delete a Sprint by ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the Sprint to delete"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        204:
+          description: "Sprint deleted successfully"
+  /tasks:
+    get:
+      summary: "Get all Tasks"
+      description: "Get all Tasks"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Task"
+    post:
+      summary: "Create a new Task"
+      description: "Create a new Task"
+      requestBody:
+        description: "Task object that needs to be added"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        201:
+          description: "Task created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+    put:
+      summary: "Update a Task"
+      description: "Update a Task"
+      requestBody:
+        description: "Task object that needs to be updated"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        200:
+          description: "Task updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+  /tasks/{id}:
+    get:
+      summary: "Get a Task by ID"
+      description: "Get a Task by ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the Task to retrieve"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+    delete:
+      summary: "Delete a Task by ID"
+      description: "Delete a Task by ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the Task to delete"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        204:
+          description: "Task deleted successfully"
+  /stories:
+    get:
+      summary: "Get all Stories"
+      description: "Get all Stories"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Story"
+    post:
+      summary: "Create a new Story"
+      description: "Create a new Story"
+      requestBody:
+        description: "Story object that needs to be added"
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: "object"
+              properties:
+                story:
+                  $ref: "#/components/schemas/Story"
+                attachments:
+                  type: "array"
+                  items:
+                    type: "string"
+                    format: "binary"
+      responses:
+        201:
+          description: "Story created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Story"
+    put:
+      summary: "Update a Story"
+      description: "Update a Story"
+      requestBody:
+        description: "Story object that needs to be updated"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Story"
+      responses:
+        200:
+          description: "Story updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Story"
+  /stories/{id}:
+    get:
+      summary: "Get a Story by ID"
+      description: "Get a Story by ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the Story to retrieve"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Story"
+    delete:
+      summary: "Delete a Story by ID"
+      description: "Delete a Story by ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the Story to delete"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        204:
+          description: "Story deleted successfully"
+  /stories/subscriptions:
+    get:
+      summary: "Get all subscribers"
+      description: "Get all subscribers"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/StorySubscription"
+    post:
+      summary: "Subscribe to a Story"
+      description: "Subscribe to a Story"
+      requestBody:
+        description: "Subscription object that needs to be added"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StorySubscription"
+      responses:
+        201:
+          description: "Subscription created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StorySubscription"
+    delete:
+      summary: "UnSubscribe to a Story"
+      description: "UnSubscribe to a Story"
+      requestBody:
+        description: "Subscription object that needs to be deleted"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StorySubscription"
+      responses:
+        201:
+          description: "Subscription deleted successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StorySubscription"
+  /stories/subscriptions/{id}:
+    delete:
+      summary: "Unsubscribe from a Story by ID"
+      description: "Unsubscribe from a Story by ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the Subscription to delete"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        204:
+          description: "Unsubscribed successfully"
+  /stories/{id}/attachments:
+    post:
+      summary: "Upload attachments to a Story"
+      description: "Upload attachments to a Story"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the Story to upload attachments to"
+          required: true
+          schema:
+            type: "integer"
+      requestBody:
+        description: "Attachments to be uploaded"
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: "object"
+              properties:
+                attachments:
+                  type: "array"
+                  items:
+                    type: "string"
+                    format: "binary"
+      responses:
+        201:
+          description: "Attachments uploaded successfully"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Attachment"
+  /stories/attachments:
+    delete:
+      summary: "Delete an attachment from a Story"
+      description: "Delete an attachment from a Story"
+      requestBody:
+        description: "Attachment object that needs to be deleted"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "array"
+              items:
+                type: "integer"
+
+      responses:
+        204:
+          description: "Attachment deleted successfully"
+  /stories/updateState/{storyId}/{state}:
+    put:
+      summary: "Update Story State"
+      description: "Update Story State"
+      parameters:
+        - name: "storyId"
+          in: "path"
+          description: "ID of the Story to update"
+          required: true
+          schema:
+            type: "integer"
+        - name: "state"
+          in: "path"
+          description: "New State of a story"
+          required: true
+          schema:
+            type: String
+      responses:
+        200:
+          description: "Story state updated"
+          content:
+            text/plain:
+              schema:
+                type: string
+  /tasks/subscriptions:
+    get:
+      summary: "Get all subscribers"
+      description: "Get all subscribers"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/TaskSubscription"
+    post:
+      summary: "Subscribe to a Task"
+      description: "Subscribe to a Task"
+      requestBody:
+        description: "Subscription object that needs to be added"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskSubscription"
+      responses:
+        201:
+          description: "Subscription created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskSubscription"
+  /tasks/subscriptions/{id}:
+    delete:
+      summary: "Unsubscribe from a Task by ID"
+      description: "Unsubscribe from a Task by ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the Subscription to delete"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        204:
+          description: "Unsubscribed successfully"
+  /comments:
+    post:
+      summary: "Create a new Comment"
+      description: "Create a new Comment"
+      requestBody:
+        description: "Comment object that needs to be added"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Comment"
+      responses:
+        201:
+          description: "Comment created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+    put:
+      summary: "Update a Comment"
+      description: "Update a Comment"
+      requestBody:
+        description: "Comment object that needs to be updated"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Comment"
+      responses:
+        200:
+          description: "Comment updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+    get:
+      summary: "Get all Comments"
+      description: "Get all Comments"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Comment"
+  /commentsById:
+    get:
+      summary: "Get a Comment by ID"
+      description: "Get a Comment by ID"
+      parameters:
+        - name: "storyId"
+          in: "query"
+          description: "ID of the Story to retrieve Comments for"
+          required: false
+          schema:
+            type: "integer"
+        - name: "taskId"
+          in: "query"
+          description: "ID of the task to retrieve Comments for"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comment"
+  /comments/{id}:
+    delete:
+      summary: "Delete a Comment by ID"
+      description: "Delete a Comment by ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the Comment to delete"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        204:
+          description: "Comment deleted successfully"
+components:
+  schemas:
+    Sprint:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        name:
+          type: "string"
+          example: "Sprint 1"
+        startDate:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-01"
+        endDate:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-15"
+        createdBy:
+          type: "string"
+          example: "Alice"
+        modifiedBy:
+          type: "string"
+          example: "Bob"
+        createdAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-01T10:00:00Z"
+        modifiedAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-05T15:30:00Z"
+        projectId:
+          type: "integer"
+          example: 1
+    Task:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        title:
+          type: "string"
+          example: "Implement login feature"
+        description:
+          type: "string"
+          example: "Create a login page with authentication"
+        status:
+          type: "string"
+          example: "In Progress"
+        sprintId:
+          type: "integer"
+          example: 1
+        storyId:
+          type: "integer"
+          example: 1
+        assignedTo:
+          type: "string"
+          example: "Charlie"
+        priority:
+          type: "string"
+          example: "High"
+        totalHours:
+          type: "integer"
+          example: 5
+        remainingHours:
+          type: "integer"
+          example: 3
+        completedHours:
+          type: "integer"
+          example: 2
+        createdBy:
+          type: "string"
+          example: "Alice"
+        modifiedBy:
+          type: "string"
+          example: "Bob"
+        createdAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-01T10:00:00Z"
+        modifiedAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-05T15:30:00Z"
+        comments:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Comment"
+    Story:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        title:
+          type: "string"
+          example: "User Authentication"
+        description:
+          type: "string"
+          example: "As a user, I want to log in so that I can access my account."
+        acceptanceCriteria:
+          type: "string"
+          example: "Given a registered user, when they enter valid credentials, then they should be logged in."
+        priority:
+          type: "string"
+          example: "High"
+        status:
+          type: "string"
+          example: "In Progress"
+        createdBy:
+          type: "string"
+          example: "Alice"
+        modifiedBy:
+          type: "string"
+          example: "Bob"
+        capacity:
+          type: "integer"
+          example: 8
+        assignedTo:
+          type: "string"
+          example: "Charlie"
+        dor:
+          type: "integer"
+          example: 0
+        sprintId:
+          type: "integer"
+          example: 1
+        createdAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-01T10:00:00Z"
+        modifiedAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-05T15:30:00Z"
+        itemType:
+          type: "string"
+          example: "Feature"
+        attachments:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Attachment"
+        comments:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Comment"
+    Comment:
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        description:
+          type: "string"
+          example: "This is a comment."
+        createdBy:
+          type: "string"
+          example: "Alice"
+        createdAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-01T10:00:00Z"
+        modifiedBy:
+          type: "string"
+          example: "Bob"
+        modifiedAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-05T15:30:00Z"
+        taskId:
+          type: "integer"
+          example: 1
+        storyId:
+          type: "integer"
+          example: 1
+    StorySubscription:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        storyId:
+          type: "integer"
+          example: 1
+        userEmail:
+          type: "array"
+          items:
+            type: "string"
+            format: "email"
+          example: "Alice"
+        createdAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-01T10:00:00Z"
+    TaskSubscription:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        taskId:
+          type: "integer"
+          example: 1
+        userName:
+          type: "string"
+          example: "Alice"
+        createdAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-01T10:00:00Z"
+    Attachment:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        fileName:
+          type: "string"
+          example: "document.pdf"
+        fileType:
+          type: "string"
+          example: "application/pdf"
+        fileSize:
+          type: "integer"
+          example: 2048
+        fileData:
+          type: "string"
+          format: "byte"
+        uploadedBy:
+          type: "string"
+        uploadedAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-01-01T10:00:00Z"
+        storyId:
+          type: "integer"
+          example: 1

@@ -1,0 +1,20 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        register: true
+        preferIpAddress: true
+
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
